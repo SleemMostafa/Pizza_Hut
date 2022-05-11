@@ -15,14 +15,18 @@
       <li>update-database</li>
       <li>run application</li>
   </ul> 
+ ----------------------
+ 
  # Packages
- Microsoft.AspNetCore.Identity.EntityFrameworkCore
- Microsoft.AspNetCore.Mvc.NewtonsoftJson
- Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
- Microsoft.EntityFrameworkCore.SqlServer
- Microsoft.EntityFrameworkCore.Tools
- Microsoft.VisualStudio.Web.CodeGeneration.Design
- AspNetCoreHero.ToastNotification
+   <ul>
+      <li>Microsoft.AspNetCore.Identity.EntityFrameworkCore</li>
+      <li>Microsoft.AspNetCore.Mvc.NewtonsoftJson</li>
+      <li>Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation</li>
+      <li>Microsoft.EntityFrameworkCore.SqlServer</li>
+      <li>Microsoft.EntityFrameworkCore.Tools</li>
+      <li>Microsoft.VisualStudio.Web.CodeGeneration.Design</li>
+      <li>AspNetCoreHero.ToastNotification</li>
+  </ul> 
  
  
 
