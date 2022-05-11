@@ -9,19 +9,19 @@
  # install
 -----------------------
 -git clone https://github.com/SleemMostafa/Pizza_Hut.git
--open solution 
--add-migration
--update-database
--run application
+open solution 
+add-migration
+update-database
+run application
  
  # Packages
- -Microsoft.AspNetCore.Identity.EntityFrameworkCore
- -Microsoft.AspNetCore.Mvc.NewtonsoftJson
- -Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
- -Microsoft.EntityFrameworkCore.SqlServer
- -Microsoft.EntityFrameworkCore.Tools
- -Microsoft.VisualStudio.Web.CodeGeneration.Design
- -AspNetCoreHero.ToastNotification
+ Microsoft.AspNetCore.Identity.EntityFrameworkCore
+ Microsoft.AspNetCore.Mvc.NewtonsoftJson
+ Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+ Microsoft.EntityFrameworkCore.SqlServer
+ Microsoft.EntityFrameworkCore.Tools
+ Microsoft.VisualStudio.Web.CodeGeneration.Design
+ AspNetCoreHero.ToastNotification
  
  
 
