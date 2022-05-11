@@ -1,0 +1,28 @@
+﻿@model CustomerOrder
+<section>
+    <div class="container">
+        <form method="post" asp-controller="Order" asp-action="SaveOrderData" >
+        <h2>Basic Details</h2>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name"></label>
+              <span asp-validation-for="Name" class="text-danger"></span>
+               <input asp-for="Name" class="form-control mt-2"placeholder="Name" />
+            </div>
+            <div class="form-group col-md-6">
+             <label asp-for="Phone"></label>
+             <span asp-validation-for="Phone" class="text-danger"></span>
+              <input asp-for="Phone" class="form-control mt-2"placeholder="Name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label asp-for="Location"></label>
+            <span asp-validation-for="Location" class="text-danger"></span>
+            <input asp-for="Location" class="form-control mt-2"placeholder="Name"/>
+          </div>
+               <button type="submit" class="btn btn-warning mt-4"><i class="bi bi-check"></i> Save Order</button> 
+                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary mt-4"><i class="bi bi-x"></i>Cancel</a>
+        </form>
+    </div>
+</section>  

@@ -1,0 +1,29 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "ShowUserOrders";
+    @if (@User.IsInRole("Admin"))
+    {
+        Layout = "_AdminLayout";
+    }
+    else
+    {
+        Layout = "_PizzaHutLayout";
+    }
+}
+
+<div class="container-fluid mt-4">
+   @foreach (Order item in @Model)
+   {
+        <div class="card mt-4 col-md-6 col-lg-4" style="width:32.2%; height:auto; display:inline-block;margin:6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div class="card-body">
+                        <h4 class="card-title">Order Number : @item.ID</h4>
+                        <h5 class="card-text">Order Date : @item.Date</h5>
+                        <h5 class="card-text">Address : @item.Location</h5>
+                        <h5 class="card-text">Total Price : @item.TotalPrice</h5>
+
+                        <a href="/Order/ProductsOrder/@item.ID" class="btn btn-outline-secondary">
+                            <i class="bi bi-bag-check"></i> Products</a> 
+            </div>
+        </div>
+    }
+</div>

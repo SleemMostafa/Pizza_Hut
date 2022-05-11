@@ -1,0 +1,39 @@
+﻿@model IEnumerable<IdentityRole>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_AdminLayout";
+}
+<section class="container justify-content-between">
+    <div class="col-6" >
+    <h2><span style="color:#4B49AC;font-weight:bold">Roles</span></h2>
+    <hr />
+        <div class="ps-0 col-8 mt-4">  
+            <table class="table table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">Role</th>
+                </tr>
+              </thead>
+              <tbody>
+               @foreach (var item in @Model)
+               {
+                 <tr>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        @item.Name
+                      </label>
+                    </div>
+                  </td>
+                </tr>   
+               }
+              </tbody>
+            </table>
+        </div>
+        </div>
+</section>
+@section Scripts{
+    <!--JQuery-->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

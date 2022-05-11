@@ -1,0 +1,47 @@
+﻿@model Pizza_Hut.ViewModel.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+<br />
+<br />
+<div class="form-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-10 col-sm-offset-3 col-sm-6" style="background-color:orange" >
+                <div class="form-container">
+                    <div class="left-content" style="background-color:black; opacity:.8"> 
+                        <h3 class="title"></h3>
+                        <h4 class="sub-title">your right choice</h4>
+                    </div>
+                    <div class="right-content">
+                        <h3 class="form-title">Login</h3>
+                        <form class="form-horizontal" asp-action="Login">
+                            <div class="form-group">
+                            <label>Username</label>
+                                <input type="text" class="form-control" asp-for="USerName">
+                            </div>
+                            <div class="form-group">
+                            <label>Password</label>
+                                <input type="password" asp-for="Password" class="form-control">
+                            </div>
+                            <input type="submit" value="Login" class="btn signin"/>
+                            <div class="remember-me">
+                                <input type="checkbox" asp-for="isPersistent">
+                                <span class="check-label">Remember Me</span>
+                            </div>
+                            @*<a href="" class="forgot">Forgot Password</a>*@
+                        </form>
+                        <span class="signup-link">Don't have an account? Sign up <a href="/Account/Register">here</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+@*    <script src="~/js/login.js"></script>
+*@    <link rel="stylesheet" href="~/css/Loginstyle.css" />
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

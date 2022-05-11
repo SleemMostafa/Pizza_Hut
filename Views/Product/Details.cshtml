@@ -1,0 +1,106 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_PizzaHutLayout";
+}
+<div class="mt-4">
+    <div style="position:fixed;z-index:2">      
+            <div class="alert alert-success alert-dismissable" id="SucessAlert" style="display:none;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                Success! Product Added successfully.
+            </div>
+            <div class="alert alert-danger alert-dismissable" id="FailedAlert" style="display:none;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                Failed ! Product Already Exists .
+            </div>
+    </div>
+</div>
+<section>
+    @if(!Model.Any())
+        {
+            <div class="alert alert-danger" role="alert">
+            <i class="bi bi-radioactive"></i> No Products Found
+            </div>
+        }
+    else
+    {
+    <div class="container-fluid row">
+        
+            @foreach (var item in @Model)
+            {
+              <div class="card mt-4" style="width:calc(97%/3);display:inline-block;margin:6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+                    <img class="card-img-top" src="/Images/@item.Photo" alt="Card image" style="width:100%;height:auto">
+                     <div class="card-body">
+                          <h4 class="card-title">@item.Name</h4>
+                          <p class="card-text">@item.Description</p>
+                          <div class="d-inline-flex">
+                              <div style="display:inline-flex">
+                                <button class="btn btn-warning"  onclick="AddCartItem(@item.ID)" style="font-weight:bold; margin:2px" >ADD</button>
+                              </div>
+                              <span>
+                                  <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@item.ID" asp-controller="Product" style="font-weight:bold; margin:2px" >Details</a>
+                              </span>
+                               @{
+                                   float Price = 0.0f;
+                               }
+                                <select name="selectedSize" id ="selectedSize" class="form-select" aria-label="Default select example" style="margin-left: 3px" onchange="SetSize(this)">
+                                @foreach (var productSize in @item.ProductSizes)
+                                {
+                                   if((int)productSize.size==1)
+                                       {
+                                           {Price=@productSize.Price;}
+                                         <option value="@productSize.size" selected>@productSize.size</option>
+                                       }
+                                    else
+                                     {
+                                       <option value="@productSize.size">@productSize.size</option>
+                                     }
+                                 }
+                             </select>
+                         </div>
+                         <p><strong>EGP @Price </strong></p>
+                     </div>
+
+                    </div>
+                
+            }
+        </div>
+    
+    }
+</section>
+
+@section Scripts{
+    <script>
+        
+        var asmaa="medium";
+        function SetSize(drop)
+        {
+            asmaa=drop.value;
+        }
+        function AddCartItem(productID)
+        {
+           console.log(asmaa);
+            var id = parseInt(productID); 
+      $.ajax({
+        url: "/Cart/AddProduct",
+        data:{"id":id,"ProductSize":asmaa},
+        success: function(result)
+        {
+            if(result==true)
+            {
+                $("#SucessAlert").show();
+                $("#FailedAlert").hide();
+
+            }
+            else
+            {
+                $("#SucessAlert").hide();
+                $("#FailedAlert").show();
+            }
+            console.log(result);
+        }
+        });
+        }
+    </script>
+}

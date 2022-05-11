@@ -1,0 +1,145 @@
+﻿@model Pizza_Hut.Models.Product
+
+@{
+    ViewData["Title"] = "ProductDetails";
+}
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 style="font-weight:bold">Product Details</h2>
+        </div>
+      </div>
+    </section><!-- End Breadcrumbs -->
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+                <div class="swiper-slide">
+                  <img src="/Images/@Model.Photo" alt="">
+                </div>
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Product information</h3>
+              <ul>
+                <li><strong>Name</strong>: @Model.Name</li>
+                <li><strong>Category</strong>: @Model.Category.Name</li>
+              </ul>
+              <div class="card-header">
+                Product Sizes & Prices
+              </div>
+              <ul class="list-group list-group-flush">
+                  @foreach (ProductSize item in @Model.ProductSizes)
+                  {
+                     <li class="list-group-item d-inline-flex"><h5>@item.size : &nbsp; @item.Price EGP</h5> </li>                  
+                  }
+              </ul>
+            </div>
+
+            <div class="portfolio-description">
+              <h2>Product Description</h2>
+              <p>
+                @Model.Description
+              </p>
+            </div>
+          </div>
+
+        </div>
+        <input class="form-check-input" hidden type="checkbox" asp-for="@User.Identity.IsAuthenticated" id="invalidCheck">
+        <input class="form-control" hidden value="@Model.ID" id="Product"/>        
+         
+        <input class="form-control" hidden value="@User.Identity.Name" id="UserName"/>        
+        <textarea placeholder="Write a comment" class="form-control" style="height:100px" id="comment"></textarea>
+        <br/>
+        <button class="btn btn-dark" id="btn">Comment</button>
+        <br />
+        <br />
+        <br />
+        <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Comments</h5>
+            <div class="card border-0" id="innerCart">
+               @foreach (Comment item in @Model.Comments)
+               {
+                    <br />
+                    <div class="card-header" data-aos="zoom-in">
+                        <div class="fw-bold fs-4">@item.UserName</div>
+                        <div class="tab-content ps-4 pt-3 text-wrap fs-5">@item.comment</div>
+                    </div>    
+               }
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section><!-- End Portfolio Details Section -->
+    
+    @*--------------------------------------------------------*@
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
+*@
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+ @section Scripts{
+     <script>
+         $(document).ready(function(){
+             var hubConnection=
+               new signalR.HubConnectionBuilder().withUrl("/ProductHub").build();
+            
+            //Start
+            hubConnection.start().then(function(){
+                console.log("Connect Success");
+            });
+            hubConnection.on("AddComment",function(obj){
+                //{id: 2, userName: 'Ali', comment: '', productID: 1, product: null}
+                console.log(obj);
+
+                var Product = $("#Product").val();
+                
+                if(obj.productID == Product){
+                    document.getElementById("innerCart").innerHTML+=
+                    `<br />
+                    <div class="card-header" data-aos="zoom-in">
+                        <div class="fw-bold fs-4">${obj.userName}</div>
+                        <div class="tab-content ps-4 pt-3 text-wrap fs-5">${obj.comment}</div>
+                    </div>`
+                
+                }else{
+                    console.log("out");
+                }
+                console.log("hh");
+            });
+             $("#btn").on("click",function(){
+                 
+                var comment = $("#comment").val();
+                console.log(comment);
+                var name = $("#UserName").val();
+                console.log(name);
+                var Product = $("#Product").val();
+                console.log(Product);
+                var Check = document.getElementById("invalidCheck").checked;
+                console.log(Check);
+                if(Check){
+                     $.ajax({
+                             url:'@Url.Action("Add", "Comment")',
+                             data:"comment="+comment+"&UserName="+name+"&ProductID="+Product,
+                             success: function(){                             
+                             },
+                     });
+                }
+                else{
+                    alert("You Must SignIn To Comment!!");
+                }
+             })
+         });
+     </script>
+ }

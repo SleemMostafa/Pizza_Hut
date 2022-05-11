@@ -1,0 +1,113 @@
+﻿@using Pizza_Hut.Views.ViewModel.ProductViewModel
+@model ProductViewModel
+@{
+    SelectList categories = new SelectList(@Model.CategoryList, "ID", "Name", @Model.CategoryID);
+    Layout = "_AdminLayout";
+}
+
+<section class="row container justify-content-between">
+    <div class="col-6 ms-5" >
+    <h2>Edit <span style="color:#4B49AC;font-weight:bold">Product </span></h2>
+    <hr />
+    <form method="post" asp-action="SaveEdit" asp-controller="product" asp-route-id="@Model.ID" enctype="multipart/form-data">
+    
+        <div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+            <input asp-for="Name" class="form-control mt-4"placeholder="Name" />
+        </div>
+        <div>
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <textarea asp-for="Description" class="form-control mt-4"placeholder="Description" rows="4" ></textarea>
+        </div>
+        <div class="custom-file col-12 mt-4">
+            <input type="file" class="custom-file-input" asp-for="ProductImage" accept="image/*" />
+            <label class="custom-file-label">@Model.Image</label>
+            <span asp-validation-for="ProductImage" class="text-danger"></span>
+        </div>
+        <div style="display:none">
+            <input asp-for="Image" />
+        </div>
+        <div class="custom-file ps-0 col-12 mt-4">
+            <select class="form-select" asp-for="CategoryID" asp-items="categories" placeholder="Product catgory">
+                <option value="0">Select Category</option>        
+            </select>
+            <span asp-validation-for="CategoryID" class="text-danger"></span>
+        </div>
+
+        <div class="ps-0 col-8 mt-4">  
+            <span asp-validation-for="productSizeViewModel" class="text-danger"></span>            
+            <table class="table table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">Size</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" style="margin-left:.5px;cursor:pointer" type="checkbox" asp-for="productSizeViewModel.Small" id="invalidCheck">
+                      <label class="form-check-label" for="invalidCheck">
+                        Small
+                      </label>
+                    </div>
+                  </td>
+                  <td><input asp-for="productSizeViewModel.PriceSmall" class="form-control"placeholder="Price" /></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" style="margin-left:.5px;cursor:pointer" type="checkbox" asp-for="productSizeViewModel.Medium" id="flexCheckDefault">
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Medium
+                      </label>
+                    </div>
+                  </td>
+                  <td><input asp-for="productSizeViewModel.PriceMedium" class="form-control" placeholder="Price" /></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" style="margin-left:.5px;cursor:pointer" type="checkbox" asp-for="productSizeViewModel.Large" id="flexCheckLarge">
+                      <label class="form-check-label" for="flexCheckLarge">
+                        Large
+                      </label>
+                    </div>
+                  </td>
+                  <td><input asp-for="productSizeViewModel.PriceLarge" class="form-control"placeholder="Price" /></td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div>
+             <button type="submit" class="btn btn-primary mt-4"><i class="bi bi-check"></i> Save Change</button> 
+            <a asp-action="Admin" asp-controller="Home" class="btn btn-outline-secondary mt-4"><i class="bi bi-x"></i> Cancel</a>
+        </div>
+    </form>
+    </div>
+    <div class="col-md-5">
+        <div id="image-container" class="d-none">
+            <img src="" alt="Image" class="ima-thumbnall" width="250px" height="200px"/>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <!--JQuery-->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#ProductImage").on("change",function(){
+                var selectedFile = $(this).val().split("\\").pop();
+                $(this).siblings("label").text(selectedFile);
+                var imageContainer = $("#image-container");
+                var image = window.URL.createObjectURL(this.files[0]);
+                imageContainer.removeClass("d-none");
+                imageContainer.find("img").attr("src",image);
+            });
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

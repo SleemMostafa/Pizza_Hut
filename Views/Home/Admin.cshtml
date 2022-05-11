@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Admin";
+    Layout = "_AdminLayout";
+}
+    <div class="row">
+      <div class="col-3">
+         <a class="card card-tale" asp-action="add" asp-controller="Category" style="text-decoration:none">
+           <div class="card-body">
+               <h4 class="mb-4">Create New Category</h4>      
+            </div>
+         </a>
+       </div>
+       
+      <div class="col-3">
+         <a class="card card-tale" asp-action="add" asp-controller="Product" style="text-decoration:none">
+           <div class="card-body">
+               <h4 class="mb-4">Create New Product</h4>      
+            </div>
+         </a>
+       </div>
+    </div>
+
+

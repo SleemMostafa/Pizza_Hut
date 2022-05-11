@@ -1,0 +1,46 @@
+﻿@model Pizza_Hut.ViewModel.CustomerViewModel
+
+@{
+    ViewData["Title"] = "RegisterAdmin";
+    Layout = "_AdminLayout";
+}
+<section class="container justify-content-between">
+     <div class="col-6" >
+        <h2>Register New <span style="color:#4B49AC;font-weight:bold">Admin</span></h2>
+        <form asp-action="RegisterAdmin">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PasswordConfirme" class="control-label"></label>
+                <input asp-for="PasswordConfirme" class="form-control" />
+                <span asp-validation-for="PasswordConfirme" class="text-danger"></span>
+            </div>
+             <div class="custom-file ps-0 col-6 mt-4">
+                <button type="submit" class="btn btn-primary mt-4" id="submit"><i class="bi bi-check"></i>Register</button> 
+                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary mt-4"><i class="bi bi-x"></i>Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

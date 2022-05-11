@@ -1,0 +1,42 @@
+﻿@model Pizza_Hut.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_AdminLayout";
+}
+
+<section class="container justify-content-between">
+    <div class="col-6" >
+        <h2><span style="color:#4B49AC;font-weight:bold">Product</span> Details </h2>        
+        <hr />
+
+        <div class="card" style="width: 25rem;">
+          <img src="/Images/@Model.Photo" class="card-img-top ima-thumbnall" alt="...">
+          <div class="card-body">
+              <div>
+                  <h4 class="card-title fs-2 fw-bold">@Model.Name</h4>
+              </div>
+            <p class="card-text fs-5">@Model.Description</p>
+          </div>
+          <div class="card-header">
+            Product Category
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item fs-5">@Model.Category.Name</li>
+          </ul>
+          <div class="card-header">
+            Product Size
+          </div>
+          <ul class="list-group list-group-flush">
+              @foreach (ProductSize item in @Model.ProductSizes)
+              {
+                 <li class="list-group-item d-inline-flex"><h5>@item.size</h5> &nbsp; &nbsp; &nbsp;<h5 style="color:#dc3545">@item.Price <i>LE</i></h5></li>                  
+              }
+          </ul>
+          <div class="card-body">
+            <input type="hidden" asp-for="ID" />
+            <a asp-action="DisplayProduct" asp-controller="Product" asp-route-id="@Model.Category.ID" class="btn btn-outline-secondary mt-4"><i class="bi bi-arrow-left-short" aria-hidden="true"></i>Back To Product Lsit</a>
+          </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,59 @@
+﻿@model CategoryVewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_AdminLayout";
+}
+<section class="row container justify-content-between">
+    <div class="col-6 ms-5" >
+    <h2>Edit <span style="color:#4B49AC;font-weight:bold">Category </span></h2>
+    <hr />
+    <form method="post" asp-action="SaveEdit" asp-route-id="@Model.ID"   asp-controller="Category" enctype="multipart/form-data">
+        <div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+            <input asp-for="Name" class="form-control mt-4"placeholder="Name" />
+        </div>
+        <div style="display:none">
+            <input asp-for="ID" />
+        </div>
+        <div>
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <textarea asp-for="Description" class="form-control mt-4"placeholder="Description" rows="4" ></textarea>
+        </div>
+        <div class="custom-file col-6 mt-4">
+            <input type="file" class="custom-file-input" asp-for="Image" accept="image/*"/>
+            <label class="custom-file-label">@Model.ImageName</label>
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+        <div style="display:none">
+            <input asp-for="ImageName" />
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary mt-4"><i class="bi bi-check"></i> Save Change</button> 
+            <a asp-action="Admin" asp-controller="Home" class="btn btn-outline-secondary mt-4"><i class="bi bi-x"></i> Cancel</a>
+        </div>
+    </form>
+    </div>
+    <div class="col-md-5">
+        <div id="image-container" class="d-none" >
+            <img src="" alt="Image" class="ima-thumbnall" width="200px" height="200px"/>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <!--JQuery-->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script>
+        $(document).ready(function(){s
+            $("#Image").on("change",function(){
+                var selectedFile = $(this).val().split("\\").pop();
+                $(this).siblings("label").text(selectedFile);
+                var imageContainer = $("#image-container");
+                var image = window.URL.createObjectURL(this.files[0]);
+                imageContainer.removeClass("d-none");
+                imageContainer.find("img").attr("src",image);
+            });
+        });
+    </script>
+}
+

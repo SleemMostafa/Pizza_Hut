@@ -1,0 +1,140 @@
+﻿@model List<Category>
+@{
+    ViewData["Title"] = "Home Page";
+    @if (@User.IsInRole("Admin"))
+    {
+        Layout = "_AdminLayout";
+    }
+    else
+    {
+        Layout = "_PizzaHutLayout";
+    }
+}
+@if (!@User.IsInRole("Admin"))
+{
+    <section id="hero" class="d-flex align-items-center justify-content-center">
+        <div class="container aos-init aos-animate" data-aos="fade-up">
+
+            <div class="row justify-content-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="150">
+                <div class="col-xl-6 col-lg-8">
+                    <h1>TRY OUR NEW <span style="color:orange">PIZZA</span> HUT.</h1>
+                    <H5 style="color:white">We Introducing the all new “Pizza hut Egypt” app for easy ordering and great exclusive deals. </H5>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<div class="mt-4"></div>
+  
+
+
+
+    @if(!Model.Any())
+    {
+        <section>
+        <div class="alert alert-danger" role="alert">
+        <i class="bi bi-radioactive"></i>No Category Found
+        </div>
+    </section>
+}
+else
+{
+    @if (!@User.IsInRole("Admin"))
+    {
+        <div class="container-fluid mt-4" id="NewCategory">
+            
+            @foreach (Category item in @Model)
+            {
+              <div class="card mt-4" style="width:calc(95%/3);display:inline-block;margin:6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <img class="card-img-top" src="/Images/@item.Image" alt="Card image" style="width:100%;height:50%">
+                    <div class="card-body">
+                        <h4 class="card-title" style="text-align:center;color:red;font-weight:bold">@item.Name</h4>
+                        <p class="card-text">@item.Description</p>
+                        <a  asp-action="DisplayProduct" asp-route-id="@item.ID" asp-controller="Product" class="btn btn-outline-secondary">
+                            <i class="bi bi-bag-check"></i> Products</a>    
+
+                        @if (User.IsInRole("Admin") == true)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ID" asp-controller="Category" class="btn btn-outline-primary ">
+                                <i class="bi bi-pen"></i> Edit</a>
+                            <a  href="javascript:;" class="btn btn-danger js-delete" data-id="@item.ID">
+                                <i class="bi bi-trash"></i> Delete</a>
+                        }   
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+         <div class="container-fluid mt-4">
+            @foreach (Category item in @Model)
+            {
+              <div class="card mt-4" style="width:calc(95%/3);display:inline-block;margin:6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <img class="card-img-top" src="/Images/@item.Image" alt="Card image" style="width:100%;height:50%">
+                    <div class="card-body">
+                        <h4 class="card-title" style="text-align:center;color:red;font-weight:bold"><a style="text-decoration:none" asp-action="DisplayProduct" asp-route-id="@item.ID" asp-controller="product">@item.Name</a></h4>
+                        <p class="card-text">@item.Description</p>
+
+
+
+                        @if (User.IsInRole("Admin") == true)
+                        {
+                            <a  asp-action="Edit" asp-route-id="@item.ID" asp-controller="Category" class="btn  btn-outline-primary">
+                                <i class="bi bi-pen"></i> Edit</a>
+                            <a  href="javascript:;" class="btn btn-danger js-delete" data-id="@item.ID">
+                                <i class="bi bi-trash"></i> Delete</a>
+                        }   
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+
+ @section Scripts{
+     <script>
+         $(document).ready(function(){
+             $(".js-delete").on("click",function(){
+                 var btn = $(this);
+                 var result = confirm("Are You Sure Delete This Category ?");
+                 if(result)
+                 {
+                     $.ajax({
+                         url:"/Category/Delete/" + btn.data("id"),
+                         success: function(){
+                             btn.parents(".card").fadeOut();
+                             
+                         },
+                     });
+                 }
+             })
+         });
+     </script>
+ 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js">
+    </script>
+<script>
+    var hubConnection=
+    new signalR.HubConnectionBuilder().withUrl("/CategoryHub").build();
+    hubConnection.on("AddNewCategory",function(obj){
+        console.log(obj);
+         document.getElementById("NewCategory").innerHTML +=`<div class="card mt-4" style="width:calc(95%/3);display:inline-block;margin:6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <img class="card-img-top" src="/Images/${obj.Image}" alt="Card image" style="width:100%;height:50%">
+                    <div class="card-body">
+                        <h4 class="card-title" style="text-align:center;color:red;font-weight:bold">${obj.Name}</h4>
+                        <p class="card-text">${obj.Description}</p>
+                        <a  asp-action="DisplayProduct" asp-route-id="${obj.ID}" asp-controller="Product" class="btn btn-outline-secondary">
+                            <i class="bi bi-bag-check"></i> Products</a>    
+
+                        
+                    </div>
+                </div>`
+      
+    });
+    hubConnection.start().then(function(){
+        console.log("Hub Success");
+    });
+  
+</script>
+}
