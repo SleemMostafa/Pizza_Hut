@@ -8,12 +8,13 @@
  
  # install
 -----------------------
--git clone https://github.com/SleemMostafa/Pizza_Hut.git
-open solution 
-add-migration
-update-database
-run application
- 
+  <ul>
+      <li>-git clone https://github.com/SleemMostafa/Pizza_Hut.git</li>
+      <li>open solution</li>
+      <li>add-migration</li>
+      <li>update-database</li>
+      <li>run application</li>
+  </ul> 
  # Packages
  Microsoft.AspNetCore.Identity.EntityFrameworkCore
  Microsoft.AspNetCore.Mvc.NewtonsoftJson
